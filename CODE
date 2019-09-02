@@ -1,0 +1,113 @@
+#include <Servo.h>
+
+
+Servo servo;
+int val0 = 0;
+int val1 = 0;
+int val2 = 0;
+int val3 = 0;
+int temp = 0;
+
+void setup()
+{
+  servo.attach(9);
+  digitalWrite(10,HIGH);
+  pinMode(A0, INPUT);
+  pinMode(A1, INPUT);
+  pinMode(A2, INPUT);
+  pinMode(A3, INPUT);
+  pinMode(2, INPUT);
+  pinMode(3, INPUT);
+  pinMode(13,OUTPUT);
+  pinMode(12,OUTPUT);
+  servo.write(0);
+  attachInterrupt(0, buttonPressed0, RISING);
+  attachInterrupt(1, buttonPressed1, RISING);
+  
+}
+
+void loop()
+{
+  val0= analogRead(A0);
+  val1= analogRead(A1);
+  val2= analogRead(A2);
+  val3= analogRead(A3);
+  
+  val0 = map(val0, 1, 1024, 1 , 5);// used to shrik values from 1k to 5
+  val1 = map(val1, 1, 1024, 1 , 5);
+  val2 = map(val2, 1, 1024, 1 , 5);
+  val3 = map(val3, 1, 1024, 1 , 5);
+  
+  if (val0>=3 && val1>=3 && val2>=3 && val3>=3 && temp ==1) {
+    servo.write(90);
+    digitalWrite(13,HIGH);
+    digitalWrite(12,LOW);
+   delay(1000);
+  }
+  
+  else{
+    servo.write(0);
+    digitalWrite(12,HIGH);
+    digitalWrite(13,LOW);
+    delay(1000);
+  }
+  
+}
+
+void buttonPressed0()
+{
+  temp = 1;
+  //return temp;
+}
+
+void buttonPressed1()
+{
+  temp = 0;
+  //return temp;
+}
+
+/*#include <Servo.h>
+Servo servo;
+int val0 = 0;
+int val1 = 0;
+int val2 = 0;
+int val3 = 0;
+
+
+void setup()
+{
+  servo.attach(9);
+  digitalWrite(10,HIGH);
+  pinMode(A0, INPUT);
+  pinMode(A1, INPUT);
+  pinMode(A2, INPUT);
+  pinMode(A3, INPUT);
+  PinMode(2, INPUT);
+  servo.write(0);
+  attachINterrupt(0, buttonPressed, RISING);
+  
+}
+
+void loop()
+{
+  val0= analogRead(A0);
+  val1= analogRead(A1);
+  val2= analogRead(A2);
+  val3= analogRead(A3);
+  
+  val0 = map(val0, 1, 1024, 1 , 5);// used to shrik values from 1k to 5
+  val1 = map(val1, 1, 1024, 1 , 5);
+  val2 = map(val2, 1, 1024, 1 , 5);
+  val3 = map(val3, 1, 1024, 1 , 5);
+  
+  if (val0>=3 && val1>=3 && val2>=3 && val3>=3) {
+    servo.write(90);
+   delay(1000);
+  }
+  
+  else{
+    servo.write(0);
+    delay(1000);
+  }
+  
+}*/
